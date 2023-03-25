@@ -15,7 +15,7 @@ const getAllUsersFunction = require('./getAllUsers');
 const getCommentsOfVideoFunction = require('./getCommentsOfVideo');
 
 const updateCommentFunction = require('./updateComment');
-const updateVideoCommentsFunction = require('./updateVideoComments');
+const updateVideoCommentsFunction = require('./updateVideoComments'); //TODO: Do we need a direct call? 
 const updateUserPasswordFunction = require('./updateUserPassword');
 
 const postUserFunction = require('./postUser');
