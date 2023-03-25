@@ -13,6 +13,7 @@ const getUserFunction = require('./getUser');
 const getVideoFunction = require('./getVideo');
 const getAllUsersFunction = require('./getAllUsers');
 const getCommentsOfVideoFunction = require('./getCommentsOfVideo');
+const getCommentsOfUserFunction = require('./getCommentsOfUser');
 
 const updateCommentFunction = require('./updateComment');
 const updateVideoCommentsFunction = require('./updateVideoComments'); //TODO: Do we need a direct call? 
@@ -46,6 +47,12 @@ exports.test_getCommentsOfVideo = functions.https
     .onCall((data) => 
     {
         return getCommentsOfVideoFunction.handler(admin, testDBVersion, data);
+    });
+
+exports.test_getCommentsOfUser = functions.https
+    .onCall((data) => 
+    {
+        return getCommentsOfUserFunction.handler(admin, testDBVersion, data);
     });
 
 exports.test_updateComment = functions.https
