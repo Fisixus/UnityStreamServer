@@ -1,4 +1,5 @@
 const updateVideoCommentsFunction = require('./updateVideoComments');
+const getUserFunc = require('./getUser');
 
 exports.handler = function(admin, currentDBVersion, data) {
 
@@ -7,24 +8,35 @@ exports.handler = function(admin, currentDBVersion, data) {
     const userId = data.userId;
     const videoId = data.videoId;
     const content = data.content;
-    const videoTime = data.videoTime; //TODO: Control it
+    const videoRelativeTime = data.videoRelativeTime; //TODO: Control it
+    let userStartToVideoTime = null;
 
-    const newComment = {
-        commentId: commentId,
-        userId: userId,
-        videoId: videoId,
-        content: content,
-        videoTime: videoTime
-        //creationTimestamp: admin.firestore.Timestamp.fromDate(new Date()).toDate()
-      };
-    return commentDoc.set(newComment)
-    .then(()=>{
-        newData = 
-        {
-            videoId:videoId,
-            commentId:commentId
-        }
-        return updateVideoCommentsFunction.handler(admin,currentDBVersion,newData)
-    })
+    return getUserFunc.handler(admin,currentDBVersion,data)
+    .then(user =>{
+
+        userStartToVideoTime = user.startingVideoTimes[videoId];
+        const newComment = {
+            commentId: commentId,
+            userId: userId,
+            videoId: videoId,
+            content: content,
+            videoRelativeTime: videoRelativeTime,
+            userStartToVideoTime: userStartToVideoTime
+            //creationTimestamp: admin.firestore.Timestamp.fromDate(new Date()).toDate()
+        };
+
+        return commentDoc.set(newComment)
+        .then(()=>{
+            newData = 
+            {
+                videoId:videoId,
+                commentId:commentId
+            }
+            return updateVideoCommentsFunction.handler(admin,currentDBVersion,newData)
+        }) 
+    });
+
+    
+    
 
 }

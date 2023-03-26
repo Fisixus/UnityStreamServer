@@ -18,6 +18,7 @@ const getCommentsOfUserFunction = require('./getCommentsOfUser');
 const updateCommentFunction = require('./updateComment');
 const updateVideoCommentsFunction = require('./updateVideoComments'); //TODO: Do we need a direct call? 
 const updateUserPasswordFunction = require('./updateUserPassword');
+const updateStartingVideoTimesOfUserFunction = require('./updateStartingVideoTimesOfUser');
 
 const postUserFunction = require('./postUser');
 const postCommentFunction = require('./postComment');
@@ -71,6 +72,12 @@ exports.test_updateUserPassword = functions.https
     .onCall((data) => 
     {
         return updateUserPasswordFunction.handler(admin, testDBVersion, data);
+    });
+
+exports.test_updateStartingVideoTimesOfUser = functions.https
+    .onCall((data) => 
+    {
+        return updateStartingVideoTimesOfUserFunction.handler(admin, testDBVersion, data);
     });
 
 exports.test_postUser = functions.https
