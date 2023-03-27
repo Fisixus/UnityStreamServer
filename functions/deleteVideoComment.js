@@ -1,3 +1,5 @@
+const { FieldValue } = require('firebase-admin/firestore');
+
 exports.handler = function(admin, currentDBVersion, data) {
     const videoId = data.videoId;
     const deletedCommentId = data.commentId;
@@ -8,7 +10,7 @@ exports.handler = function(admin, currentDBVersion, data) {
         return admin.firestore().collection(`Versions`).doc(`${currentDBVersion}`).collection('videos').doc(videoId)
         .update(
         {
-            commentIds : admin.firestore.FieldValue.arrayRemove(deletedCommentId)
+            commentIds : FieldValue.arrayRemove(deletedCommentId)
             //[`studioInvitedMemberInfos.${userId}`]: admin.firestore.FieldValue.delete()
         });
     });
