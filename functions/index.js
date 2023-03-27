@@ -3,14 +3,13 @@
 // The Cloud Functions for Firebase SDK to create Cloud Functions and set up triggers.
 const functions = require('firebase-functions');
 
-// The Firebase Admin SDK to access Firestore.
-const admin = require('firebase-admin');
-admin.initializeApp();
+const { FieldValue } = require('firebase-admin/firestore');
 
 const testDBVersion = 'test';
 
 const getUserFunction = require('./getUser');
 const getVideoFunction = require('./getVideo');
+const getCommentFunction = require('./getComment');
 const getAllUsersFunction = require('./getAllUsers');
 const getCommentsOfVideoFunction = require('./getCommentsOfVideo');
 const getCommentsOfUserFunction = require('./getCommentsOfUser');
@@ -26,6 +25,50 @@ const postVideoFunction = require('./postVideo');
 
 const deleteVideoCommentFunction = require('./deleteVideoComment');
 
+// The Firebase Admin SDK to access Firestore.
+const admin = require('firebase-admin');
+admin.initializeApp();
+
+exports.testPostUser = functions.https.onRequest((req, res) =>
+{
+        const data = {
+            userId: '1',
+            email: 'uerden',
+            password: 'Aa1234',
+            role:0
+      };
+      return postUserFunction.handler(admin, testDBVersion, data);
+});
+exports.testPostVideo = functions.https.onRequest((req, res) =>
+{
+        const data = {
+
+      };
+      return postVideoFunction.handler(admin, testDBVersion, data);
+});
+exports.testPostComment = functions.https.onRequest((req, res) =>
+{
+        const data = {
+            userId: 'RwioHO81tNK1JqP6jLNF',
+            videoId: 'WwYBiX9aSOXL3WOWvtDs',
+            content: 'super important!!',
+            videoRelativeTime:5.23
+      };
+      return postCommentFunction.handler(admin, testDBVersion, data);
+});
+
+exports.testUpdateStartingVideoTimesOfUser = functions.https.onRequest((req, res) =>
+{
+        const data = {
+            userId: 'RwioHO81tNK1JqP6jLNF',
+            videoId: 'WwYBiX9aSOXL3WOWvtDs',
+            startingTime: FieldValue.fromDate(new Date()).toDate()
+      };
+      return updateStartingVideoTimesOfUserFunction.handler(admin, testDBVersion, data);
+});
+
+
+
 exports.test_getUser = functions.https
     .onCall((data) => 
     {
@@ -36,6 +79,12 @@ exports.test_getVideo = functions.https
     .onCall((data) => 
     {
         return getVideoFunction.handler(admin, testDBVersion, data);
+    });
+
+exports.test_getComment = functions.https
+    .onCall((data) => 
+    {
+        return getCommentFunction.handler(admin, testDBVersion, data);
     });
 
 exports.test_getAllUsers = functions.https

@@ -1,3 +1,5 @@
+const { FieldValue } = require('firebase-admin/firestore');
+
 exports.handler = function(admin, currentDBVersion, data) {
     const commentId = data.commentId;
     const videoId = data.videoId;
@@ -5,7 +7,7 @@ exports.handler = function(admin, currentDBVersion, data) {
     return admin.firestore().collection(`Versions`).doc(`${currentDBVersion}`).collection('videos').doc(videoId)
     .update(
     {
-        commentIds: admin.firestore.FieldValue.arrayUnion(commentId)
+        commentIds: FieldValue.arrayUnion(commentId)
     });
 
 }
