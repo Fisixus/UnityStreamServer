@@ -72,189 +72,161 @@ exports.testUpdateStartingVideoTimesOfUser = functions.https.onRequest((req, res
 */
 
 exports.web_getUser = functions.https
-    .onRequest((req, res, data) => 
-    {
-        getUserFunction.handler(admin, testDBVersion, data).then(d=> res.status(200).send(JSON.stringify(d)));
+    .onRequest((req, res, data) => {
+        getUserFunction.handler(admin, testDBVersion, data).then(d => res.set('Access-Control-Allow-Origin', '*').status(200).send(JSON.stringify(d)));
         //return getUserFunction.handler(admin, testDBVersion, data);
     });
 
 exports.web_getVideo = functions.https
-    .onRequest((req, res, data) => 
-    {
-        getVideoFunction.handler(admin, testDBVersion, data).then(d=> res.status(200).send(JSON.stringify(d)));
+    .onRequest((req, res, data) => {
+        getVideoFunction.handler(admin, testDBVersion, data).then(d => res.set('Access-Control-Allow-Origin', '*').status(200).send(JSON.stringify(d)));
         //return getVideoFunction.handler(admin, testDBVersion, data);
     });
 
-exports.web_getComment = functions.https 
-    .onRequest((req, res) => 
-    {
-        getCommentFunction.handler(admin, testDBVersion, data).then(d=> res.status(200).send(JSON.stringify(d)));
+exports.web_getComment = functions.https
+    .onRequest((req, res) => {
+        getCommentFunction.handler(admin, testDBVersion, data).then(d => res.set('Access-Control-Allow-Origin', '*').status(200).send(JSON.stringify(d)));
         //return getCommentFunction.handler(admin, testDBVersion, data);
     });
 
 exports.web_getAllUsers = functions.https
-    .onRequest((req, res, data) => 
-    {   
-        getAllUsersFunction.handler(admin, testDBVersion, data).then(d=> res.status(200).send(JSON.stringify(d)));
+    .onRequest((req, res, data) => {
+        getAllUsersFunction.handler(admin, testDBVersion, data).then(d => res.set('Access-Control-Allow-Origin', '*').status(200).send(JSON.stringify(d)));
     });
 
 exports.web_getCommentsOfVideo = functions.https
-    .onRequest((req, res, data) => 
-    {
+    .onRequest((req, res, data) => {
         //return getCommentsOfVideoFunction.handler(admin, testDBVersion, data);
-        getCommentsOfVideoFunction.handler(admin, testDBVersion, data).then(d=> res.status(200).send(JSON.stringify(d)));
+        getCommentsOfVideoFunction.handler(admin, testDBVersion, data).then(d => res.set('Access-Control-Allow-Origin', '*').status(200).send(JSON.stringify(d)));
     });
 
 exports.web_getCommentsOfUser = functions.https
-    .onRequest((req,res,data) => 
-    {
+    .onRequest((req, res, data) => {
         //return getCommentsOfUserFunction.handler(admin, testDBVersion, data);
-        getCommentsOfUserFunction.handler(admin, testDBVersion, data).then(d=> res.status(200).send(JSON.stringify(d)));
+        getCommentsOfUserFunction.handler(admin, testDBVersion, data).then(d => res.set('Access-Control-Allow-Origin', '*').status(200).send(JSON.stringify(d)));
 
     });
 
 exports.web_updateComment = functions.https
-    .onRequest((req,res,data) => 
-    {
-        updateCommentFunction.handler(admin, testDBVersion, data).then(d=> res.status(200).send(JSON.stringify(d)));
+    .onRequest((req, res, data) => {
+        updateCommentFunction.handler(admin, testDBVersion, data).then(d => res.set('Access-Control-Allow-Origin', '*').status(200).send(JSON.stringify(d)));
     });
 
 exports.web_updateVideoComments = functions.https
-    .onRequest((req,res,data) => 
-    {
+    .onRequest((req, res, data) => {
         //return updateVideoCommentsFunction.handler(admin, testDBVersion, data);
-        updateVideoCommentsFunction.handler(admin, testDBVersion, data).then(d=> res.status(200).send(JSON.stringify(d)));
+        updateVideoCommentsFunction.handler(admin, testDBVersion, data).then(d => res.set('Access-Control-Allow-Origin', '*').status(200).send(JSON.stringify(d)));
     });
 
 exports.web_updateUserPassword = functions.https
-    .onRequest((req,res,data) => 
-    {
+    .onRequest((req, res, data) => {
         //return updateUserPasswordFunction.handler(admin, testDBVersion, data);
-        updateUserPasswordFunction.handler(admin, testDBVersion, data).then(d=> res.status(200).send(JSON.stringify(d)));
+        updateUserPasswordFunction.handler(admin, testDBVersion, data).then(d => res.set('Access-Control-Allow-Origin', '*').status(200).send(JSON.stringify(d)));
     });
 
 exports.web_updateStartingVideoTimesOfUser = functions.https
-    .onRequest((req,res,data) => 
-    {
+    .onRequest((req, res, data) => {
         //return updateStartingVideoTimesOfUserFunction.handler(admin, testDBVersion, data);
-        updateStartingVideoTimesOfUserFunction.handler(admin, testDBVersion, data).then(d=> res.status(200).send(JSON.stringify(d)));
+        updateStartingVideoTimesOfUserFunction.handler(admin, testDBVersion, data).then(d => res.set('Access-Control-Allow-Origin', '*').status(200).send(JSON.stringify(d)));
     });
 
 exports.web_postUser = functions.https
-    .onRequest((req,res,data) => 
-    {
+    .onRequest((req, res, data) => {
         //return postUserFunction.handler(admin, testDBVersion, data);
-        postUserFunction.handler(admin, testDBVersion, data).then(d=> res.status(200).send(JSON.stringify(d)));
+        postUserFunction.handler(admin, testDBVersion, data).then(d => res.set('Access-Control-Allow-Origin', '*').status(200).send(JSON.stringify(d)));
     });
 
 exports.web_postVideo = functions.https
-    .onRequest((req,res,data) => 
-    {
+    .onRequest((req, res, data) => {
         //return postVideoFunction.handler(admin, testDBVersion, data);
-        postVideoFunction.handler(admin, testDBVersion, data).then(d=> res.status(200).send(JSON.stringify(d)));
+        postVideoFunction.handler(admin, testDBVersion, data).then(d => res.set('Access-Control-Allow-Origin', '*').status(200).send(JSON.stringify(d)));
     });
 
 exports.web_postComment = functions.https
-    .onRequest((req,res,data) => 
-    {
+    .onRequest((req, res, data) => {
         //return postCommentFunction.handler(admin, testDBVersion, data);
-        postCommentFunction.handler(admin, testDBVersion, data).then(d=> res.status(200).send(JSON.stringify(d)));
+        postCommentFunction.handler(admin, testDBVersion, data).then(d => res.set('Access-Control-Allow-Origin', '*').status(200).send(JSON.stringify(d)));
     });
 
 exports.web_deleteVideoComment = functions.https
-    .onRequest((req,res,data) => 
-    {
+    .onRequest((req, res, data) => {
         //return deleteVideoCommentFunction.handler(admin, testDBVersion, data);
-        deleteVideoCommentFunction.handler(admin, testDBVersion, data).then(d=> res.status(200).send(JSON.stringify(d)));
+        deleteVideoCommentFunction.handler(admin, testDBVersion, data).then(d => res.set('Access-Control-Allow-Origin', '*').status(200).send(JSON.stringify(d)));
     });
 
 
 
 exports.unity_getUser = functions.https
-    .onCall((data) => 
-    {
+    .onCall((data) => {
         return getUserFunction.handler(admin, testDBVersion, data);
     });
 
 exports.unity_getVideo = functions.https
-    .onCall((data) => 
-    {
+    .onCall((data) => {
         return getVideoFunction.handler(admin, testDBVersion, data);
     });
 
-exports.unity_getComment = functions.https 
-    .onCall((data) => 
-    {
+exports.unity_getComment = functions.https
+    .onCall((data) => {
         return getCommentFunction.handler(admin, testDBVersion, data);
     });
 
 exports.unity_getAllUsers = functions.https
-    .onCall((data) => 
-    {   
-      //  console.log("SA"+ JSON.stringify(getAllUsersFunction.handler(admin, testDBVersion, req.body).json()));
-       // res.status(200).send(JSON.stringify(getAllUsersFunction.handler(admin, testDBVersion, res)));
+    .onCall((data) => {
+        //  console.log("SA"+ JSON.stringify(getAllUsersFunction.handler(admin, testDBVersion, req.body).json()));
+        // res.status(200).send(JSON.stringify(getAllUsersFunction.handler(admin, testDBVersion, res)));
         //return response.send(200,getAllUsersFunction.handler(admin, testDBVersion, data));
         return getAllUsersFunction.handler(admin, testDBVersion, data);
         //getAllUsersFunction.handler(admin, testDBVersion, res).then(d=> res.status(200).send(JSON.stringify(d)));
     });
 
 exports.unity_getCommentsOfVideo = functions.https
-    .onCall((data) => 
-    {
+    .onCall((data) => {
         return getCommentsOfVideoFunction.handler(admin, testDBVersion, data);
     });
 
 exports.unity_getCommentsOfUser = functions.https
-    .onCall((data) => 
-    {
+    .onCall((data) => {
         return getCommentsOfUserFunction.handler(admin, testDBVersion, data);
     });
 
 exports.unity_updateComment = functions.https
-    .onCall((data) => 
-    {
+    .onCall((data) => {
         return updateCommentFunction.handler(admin, testDBVersion, data);
     });
 
 exports.unity_updateVideoComments = functions.https
-    .onCall((data) => 
-    {
+    .onCall((data) => {
         return updateVideoCommentsFunction.handler(admin, testDBVersion, data);
     });
 
 exports.unity_updateUserPassword = functions.https
-    .onCall((data) => 
-    {
+    .onCall((data) => {
         return updateUserPasswordFunction.handler(admin, testDBVersion, data);
     });
 
 exports.unity_updateStartingVideoTimesOfUser = functions.https
-    .onCall((data) => 
-    {
+    .onCall((data) => {
         return updateStartingVideoTimesOfUserFunction.handler(admin, testDBVersion, data);
     });
 
 exports.unity_postUser = functions.https
-    .onCall((data) => 
-    {
+    .onCall((data) => {
         return postUserFunction.handler(admin, testDBVersion, data);
     });
 
 exports.unity_postVideo = functions.https
-    .onCall((data) => 
-    {
+    .onCall((data) => {
         return postVideoFunction.handler(admin, testDBVersion, data);
     });
 
 exports.unity_postComment = functions.https
-    .onCall((data) => 
-    {
+    .onCall((data) => {
         return postCommentFunction.handler(admin, testDBVersion, data);
     });
 
 exports.unity_deleteVideoComment = functions.https
-    .onCall((data) => 
-    {
+    .onCall((data) => {
         return deleteVideoCommentFunction.handler(admin, testDBVersion, data);
     });
 
