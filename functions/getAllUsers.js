@@ -1,4 +1,4 @@
-exports.handler = function(admin, currentDBVersion, data) {
+exports.handler = function(admin, currentDBVersion, res) {
 
     return admin.firestore().collection(`Versions`).doc(`${currentDBVersion}`).collection('users')
     .get().then(snap=>
@@ -7,6 +7,8 @@ exports.handler = function(admin, currentDBVersion, data) {
         for (var i in snap.docs) {
             users.push(snap.docs[i].data());
         }
+        console.log("func:" + users);
+   //     res.status(200).send(JSON.stringify(users));
         return users;
     });
 }
