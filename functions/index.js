@@ -9,13 +9,15 @@ const testDBVersion = 'test';
 
 const getUserFunction = require('./getUser');
 const getUserWithUUIDFunction = require('./getUserWithUUID');
+const getUserWithEmailFunction = require('./getUserWithEmail');
 const getVideoFunction = require('./getVideo');
 const getCommentFunction = require('./getComment');
 const getAllUsersFunction = require('./getAllUsers');
 const getCommentsOfVideoFunction = require('./getCommentsOfVideo');
 const getCommentsOfUserFunction = require('./getCommentsOfUser');
 
-const updateUserUUIDFunction = require('./updateUserUUID');
+const updateUserUUIDLogoutFunction = require('./updateUserUUIDLogout');
+const updateUserUUIDLoginFunction = require('./updateUserUUIDLogin');
 const updateCommentFunction = require('./updateComment');
 const updateVideoCommentsFunction = require('./updateVideoComments'); //TODO: Do we need a direct call? 
 const updateUserPasswordFunction = require('./updateUserPassword');
@@ -105,7 +107,7 @@ exports.web_getComment = functions.https
 
 exports.web_getAllUsers = functions.https
     .onRequest((req, res, data) => {
-        const cookie = req.headers['utku'];
+        const cookie = req.headers['uuid'];
         console.log("Hereee " + cookie);
         getAllUsersFunction.handler(admin, testDBVersion, data).then(d => res.set('Access-Control-Allow-Origin', '*').set('Access-Control-Allow-Headers', '*').status(200).send(JSON.stringify(d)));
     });
@@ -128,10 +130,22 @@ exports.web_updateComment = functions.https
         updateCommentFunction.handler(admin, testDBVersion, data).then(d => res.set('Access-Control-Allow-Origin', '*').status(200).send(JSON.stringify(d)));
     });
 
-exports.web_updateUserUUID = functions.https
-    .onRequest((req,res,data) => 
+exports.web_updateUserUUIDLogin = functions.https
+    .onRequest((req,res) => 
     {
-        updateUserUUIDFunction.handler(admin, testDBVersion, data).then(d=> res.status(200).send(JSON.stringify(d)));
+        cors(req, res, () => {
+            updateUserUUIDLoginFunction.handler(admin, testDBVersion, JSON.stringify(req.body)).then(d => res.status(200).send(JSON.stringify(d)));
+        })
+    });
+
+
+exports.web_updateUserUUIDLogout = functions.https
+    .onRequest((req,res) => 
+    {
+        cors(req, res, () => {
+            const cookie = req.headers['uuid'];
+            updateUserUUIDLogoutFunction.handler(admin, testDBVersion, cookie).then(d => res.status(200).send(JSON.stringify(d)));
+        })
     });
 
 exports.web_updateVideoComments = functions.https
