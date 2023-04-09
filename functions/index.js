@@ -188,8 +188,7 @@ exports.web_updateVideoComments = functions.https
 exports.web_updateUserPassword = functions.https
     .onRequest((req, res) => {
         cors(req, res, () => {
-            const cookie = req.headers['uuid'];
-            updateUserPasswordFunction.handler(admin, testDBVersion, JSON.stringify(req.body), cookie).then(d=> res.status(200).send(JSON.stringify(d)));
+            updateUserPasswordFunction.handler(admin, testDBVersion, JSON.stringify(req.body)).then(d=> res.status(200).send(JSON.stringify(d)));
         })
 
     });

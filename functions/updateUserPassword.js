@@ -1,12 +1,12 @@
-const getUserWithUUIDFunc = require('./getUserWithUUID');
+const getUserWithEmailFunc = require('./getUserWithEmail');
 
-exports.handler = function(admin, currentDBVersion, data, cookie) {
+exports.handler = function(admin, currentDBVersion, data) {
     const parsed = JSON.parse(data);
 
     const newPassword = parsed.password;
-    const uuid = cookie;
+    const email = parsed.email;
 
-    return getUserWithUUIDFunc.handler(admin,currentDBVersion,uuid)
+    return getUserWithEmailFunc.handler(admin,currentDBVersion,email)
     .then((user)=>{
         return admin.firestore().collection(`Versions`).doc(`${currentDBVersion}`).collection('users').doc(user.userId)
         .update(
