@@ -8,12 +8,14 @@ const { FieldValue } = require('firebase-admin/firestore');
 const testDBVersion = 'test';
 
 const getUserFunction = require('./getUser');
+const getUserWithUUIDFunction = require('./getUserWithUUID');
 const getVideoFunction = require('./getVideo');
 const getCommentFunction = require('./getComment');
 const getAllUsersFunction = require('./getAllUsers');
 const getCommentsOfVideoFunction = require('./getCommentsOfVideo');
 const getCommentsOfUserFunction = require('./getCommentsOfUser');
 
+const updateUserUUIDFunction = require('./updateUserUUID');
 const updateCommentFunction = require('./updateComment');
 const updateVideoCommentsFunction = require('./updateVideoComments'); //TODO: Do we need a direct call? 
 const updateUserPasswordFunction = require('./updateUserPassword');
@@ -78,6 +80,15 @@ exports.web_getUser = functions.https
         //return getUserFunction.handler(admin, testDBVersion, data);
     });
 
+exports.web_getUserWithUUID = functions.https
+    .onRequest((req, res) => 
+    {
+        const cookie = req.get('cookie');
+        data = {uuid:cookie};
+        getUserWithUUIDFunction.handler(admin, testDBVersion, data).then(d=> res.status(200).send(JSON.stringify(d)));
+        //return getUserFunction.handler(admin, testDBVersion, data);
+    });
+
 exports.web_getVideo = functions.https
     .onRequest((req, res, data) => 
     {
@@ -117,6 +128,12 @@ exports.web_updateComment = functions.https
     .onRequest((req,res,data) => 
     {
         updateCommentFunction.handler(admin, testDBVersion, data).then(d=> res.status(200).send(JSON.stringify(d)));
+    });
+
+exports.web_updateUserUUID = functions.https
+    .onRequest((req,res,data) => 
+    {
+        updateUserUUIDFunction.handler(admin, testDBVersion, data).then(d=> res.status(200).send(JSON.stringify(d)));
     });
 
 exports.web_updateVideoComments = functions.https

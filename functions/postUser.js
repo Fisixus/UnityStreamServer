@@ -12,6 +12,7 @@ exports.handler = function(admin, currentDBVersion, data) {
         email: email,
         password: password,
         role: role,
+        uuid:"",
         startingVideoTimes: {}
         //userIds: [userId],
         //creationTimestamp: admin.firestore.Timestamp.fromDate(new Date()).toDate()
