@@ -1,13 +1,18 @@
+const getUserWithUUIDFunc = require('./getUserWithUUID');
+exports.handler = function(admin, currentDBVersion, data, cookie) {
+    const parsed = JSON.parse(data);
+    const videoId = parsed.videoId;
+    const startingTime = parsed.startingTime;
+    const uuid = cookie;
 
-exports.handler = function(admin, currentDBVersion, data) {
-    const videoId = data.videoId;
-    const startingTime = data.startingTime;
-    const userId = data.userId;
-
-    return admin.firestore().collection(`Versions`).doc(`${currentDBVersion}`).collection('users').doc(userId)
-    .update(
+    return getUserWithUUIDFunc.handler(admin,currentDBVersion,uuid)
+    .then((user)=>
     {
-        [`startingVideoTimes.${videoId}`]: startingTime
-    });
+        return admin.firestore().collection(`Versions`).doc(`${currentDBVersion}`).collection('users').doc(user.userId)
+        .update(
+        {
+            [`startingVideoTimes.${videoId}`]: startingTime
+        });
 
+    });
 }

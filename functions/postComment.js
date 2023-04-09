@@ -1,23 +1,25 @@
 const updateVideoCommentsFunction = require('./updateVideoComments');
-const getUserFunc = require('./getUser');
+const getUserWithUUIDFunc = require('./getUserWithUUID');
 
-exports.handler = function(admin, currentDBVersion, data) {
+exports.handler = function(admin, currentDBVersion, data, cookie) {
 
     var commentDoc = admin.firestore().collection(`Versions`).doc(`${currentDBVersion}`).collection('comments').doc();
     const commentId = commentDoc.id;
-    const userId = data.userId;
-    const videoId = data.videoId;
-    const content = data.content;
-    const videoRelativeTime = data.videoRelativeTime; //TODO: Control it
+    const parsed = JSON.parse(data);
+    const uuid = cookie;
+
+    const videoId = parsed.videoId;
+    const content = parsed.content;
+    const videoRelativeTime = parsed.videoRelativeTime; //TODO: Control it
     let userStartToVideoTime = null;
 
-    return getUserFunc.handler(admin,currentDBVersion,data)
+    return getUserWithUUIDFunc.handler(admin,currentDBVersion,uuid)
     .then(user =>{
 
         userStartToVideoTime = user.startingVideoTimes[videoId];
         const newComment = {
             commentId: commentId,
-            userId: userId,
+            userId: user.userId,
             videoId: videoId,
             content: content,
             videoRelativeTime: videoRelativeTime,

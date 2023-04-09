@@ -1,8 +1,10 @@
 const { FieldValue } = require('firebase-admin/firestore');
 
 exports.handler = function(admin, currentDBVersion, data) {
-    const commentId = data.commentId;
-    const videoId = data.videoId;
+    const parsed = JSON.parse(data);
+
+    const commentId = parsed.commentId;
+    const videoId = parsed.videoId;
 
     return admin.firestore().collection(`Versions`).doc(`${currentDBVersion}`).collection('videos').doc(videoId)
     .update(

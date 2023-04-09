@@ -1,7 +1,8 @@
 
 exports.handler = function(admin, currentDBVersion, data) {
-    const commentId = data.commentId;
-    const newContent = data.content;
+    const parsed = JSON.parse(data)
+    const commentId = parsed.commentId;
+    const newContent = parsed.content;
 
     return admin.firestore().collection(`Versions`).doc(`${currentDBVersion}`).collection('comments').doc(commentId)
     .update(

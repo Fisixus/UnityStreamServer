@@ -1,8 +1,9 @@
 const { FieldValue } = require('firebase-admin/firestore');
 
 exports.handler = function(admin, currentDBVersion, data) {
-    const videoId = data.videoId;
-    const deletedCommentId = data.commentId;
+    const parsed = JSON.parse(data);
+    const videoId = parsed.videoId;
+    const deletedCommentId = parsed.commentId;
 
     return admin.firestore().collection(`Versions`).doc(`${currentDBVersion}`).collection('comments')
     .doc(deletedCommentId).delete()
