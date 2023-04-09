@@ -1,5 +1,5 @@
 exports.handler = function(admin, currentDBVersion, data) {
-    const uuid = data.uuid;
+    const uuid = data;
     return admin.firestore().collection(`Versions`).doc(`${currentDBVersion}`).collection('users')
     .where('uuid','==',uuid)
         .get().then(snap=>

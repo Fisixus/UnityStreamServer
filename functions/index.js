@@ -29,6 +29,7 @@ const deleteVideoCommentFunction = require('./deleteVideoComment');
 
 // The Firebase Admin SDK to access Firestore.
 const admin = require('firebase-admin');
+const cors = require('cors')({origin: true});
 admin.initializeApp();
 
 /*
@@ -82,10 +83,12 @@ exports.web_getUser = functions.https
 exports.web_getUserWithUUID = functions.https
     .onRequest((req, res) => 
     {
-        const cookie = req.get('cookie');
-        data = {uuid:cookie};
-        getUserWithUUIDFunction.handler(admin, testDBVersion, data).then(d=> res.status(200).send(JSON.stringify(d)));
+        cors(req, res, () => {
+            const cookie = req.headers['uuid'];
+            console.log("Hereee " + cookie);
+            getUserWithUUIDFunction.handler(admin, testDBVersion, cookie).then(d=> res.status(200).send(JSON.stringify(d)));
         //return getUserFunction.handler(admin, testDBVersion, data);
+        })
     });
 
 exports.web_getVideo = functions.https
@@ -102,7 +105,9 @@ exports.web_getComment = functions.https
 
 exports.web_getAllUsers = functions.https
     .onRequest((req, res, data) => {
-        getAllUsersFunction.handler(admin, testDBVersion, data).then(d => res.set('Access-Control-Allow-Origin', '*').status(200).send(JSON.stringify(d)));
+        const cookie = req.headers['utku'];
+        console.log("Hereee " + cookie);
+        getAllUsersFunction.handler(admin, testDBVersion, data).then(d => res.set('Access-Control-Allow-Origin', '*').set('Access-Control-Allow-Headers', '*').status(200).send(JSON.stringify(d)));
     });
 
 exports.web_getCommentsOfVideo = functions.https
@@ -148,9 +153,13 @@ exports.web_updateStartingVideoTimesOfUser = functions.https
     });
 
 exports.web_postUser = functions.https
-    .onRequest((req, res, data) => {
+    .onRequest((req, res) => {
         //return postUserFunction.handler(admin, testDBVersion, data);
-        postUserFunction.handler(admin, testDBVersion, data).then(d => res.set('Access-Control-Allow-Origin', '*').status(200).send(JSON.stringify(d)));
+        cors(req, res, () => {
+            postUserFunction.handler(admin, testDBVersion, JSON.stringify(req.body)).then(d => res.status(200).send(JSON.stringify(d)));
+        //return getUserFunction.handler(admin, testDBVersion, data);
+        })
+       
     });
 
 exports.web_postVideo = functions.https
