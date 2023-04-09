@@ -2,7 +2,7 @@ exports.handler = function(admin, currentDBVersion, data) {
 
     var userDoc = admin.firestore().collection(`Versions`).doc(`${currentDBVersion}`).collection('users').doc();
     const userId = userDoc.id;
-    const parsed = JSON.parse(data);
+    const parsed = JSON.parse(data)
     const role = parsed.role;
     const email = parsed.email;
     const password = parsed.password;
@@ -14,7 +14,8 @@ exports.handler = function(admin, currentDBVersion, data) {
         password: password,
         role: role,
         uuid:"",
-        startingVideoTimes: {}
+        startingVideoTimes: {},
+        videoIds: []
         //userIds: [userId],
         //creationTimestamp: admin.firestore.Timestamp.fromDate(new Date()).toDate()
       };

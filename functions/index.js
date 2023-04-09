@@ -19,6 +19,7 @@ const getCommentsOfUserFunction = require('./getCommentsOfUser');
 const updateUserUUIDLogoutFunction = require('./updateUserUUIDLogout');
 const updateUserUUIDLoginFunction = require('./updateUserUUIDLogin');
 const updateCommentFunction = require('./updateComment');
+const updateUserVideosFunction = require('./updateUserVideos');
 const updateVideoCommentsFunction = require('./updateVideoComments'); //TODO: Do we need a direct call? 
 const updateUserPasswordFunction = require('./updateUserPassword');
 const updateStartingVideoTimesOfUserFunction = require('./updateStartingVideoTimesOfUser');
@@ -177,20 +178,20 @@ exports.web_postUser = functions.https
     });
 
 exports.web_postVideo = functions.https
-    .onRequest((req, res, data) => {
-        //return postVideoFunction.handler(admin, testDBVersion, data);
-        postVideoFunction.handler(admin, testDBVersion, data).then(d => res.set('Access-Control-Allow-Origin', '*').status(200).send(JSON.stringify(d)));
+    .onRequest((req, res) => {
+        cors(req, res, () => {
+            const cookie = req.headers['uuid'];
+            postVideoFunction.handler(admin, testDBVersion, JSON.stringify(req.body), cookie).then(d => res.status(200).send(JSON.stringify(d)));
+        })
     });
 
 exports.web_postComment = functions.https
     .onRequest((req, res, data) => {
-        //return postCommentFunction.handler(admin, testDBVersion, data);
         postCommentFunction.handler(admin, testDBVersion, data).then(d => res.set('Access-Control-Allow-Origin', '*').status(200).send(JSON.stringify(d)));
     });
 
 exports.web_deleteVideoComment = functions.https
     .onRequest((req, res, data) => {
-        //return deleteVideoCommentFunction.handler(admin, testDBVersion, data);
         deleteVideoCommentFunction.handler(admin, testDBVersion, data).then(d => res.set('Access-Control-Allow-Origin', '*').status(200).send(JSON.stringify(d)));
     });
 
