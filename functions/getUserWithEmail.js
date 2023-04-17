@@ -1,7 +1,6 @@
-exports.handler = function(admin, currentDBVersion, data) {
-    const email = data;
+exports.handler = function(admin, currentDBVersion, email, password) {
     return admin.firestore().collection(`Versions`).doc(`${currentDBVersion}`).collection('users')
-    .where('email','==',email)
+    .where('email','==',email).where('password','==',password)
         .get().then(snap=>
         {
             var user = '';
