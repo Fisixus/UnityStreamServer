@@ -6,6 +6,7 @@ exports.handler = function(admin, currentDBVersion, data) {
     const role = parsed.role;
     const email = parsed.email;
     const password = parsed.password;
+    const name = parsed.name;
 
 
     const newUser = {
@@ -13,6 +14,7 @@ exports.handler = function(admin, currentDBVersion, data) {
         email: email,
         password: password,
         role: role,
+        name: name,
         uuid:"",
         startingVideoTimes: {},
         videoIds: []
