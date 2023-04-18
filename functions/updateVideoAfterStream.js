@@ -1,6 +1,6 @@
 const updateUserVideoIdsFunc = require('./updateUserVideoIds');
 
-exports.handler = function(admin, currentDBVersion, data, cookie) {
+exports.handler = function(admin, currentDBVersion, data) {
 
     const parsed = JSON.parse(data);
     const videoId = parsed.videoId;

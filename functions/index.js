@@ -9,7 +9,8 @@ const testDBVersion = 'test';
 
 //const getUserFunction = require('./getUser');
 const getUserWithUUIDFunction = require('./getUserWithUUID');
-//const getUserWithEmailFunction = require('./getUserWithEmail');
+const getOnGoingVideoFunction = require('./getOnGoingVideo');
+const getUserWithEmailFunction = require('./getUserWithEmail');
 //const getVideoFunction = require('./getVideo');
 //const getCommentFunction = require('./getComment');
 const getAllUsersFunction = require('./getAllUsers');
@@ -37,54 +38,7 @@ const admin = require('firebase-admin');
 const cors = require('cors')({origin: true});
 admin.initializeApp();
 
-/*
-exports.testPostUser = functions.https.onRequest((req, res) =>
-{
-        const data = {
-            email: 'uerden',
-            password: 'Aa1234',
-            role:0
-      };
-      res.status(200).send(postUserFunction.handler(admin, testDBVersion, data));
-      //return postUserFunction.handler(admin, testDBVersion, data);
-});
 
-exports.testPostVideo = functions.https.onRequest((req, res) =>
-{
-        const data = {
-
-      };
-      return postVideoFunction.handler(admin, testDBVersion, data);
-});
-
-exports.testPostComment = functions.https.onRequest((req, res) =>
-{
-        const data = {
-            userId: 'RwioHO81tNK1JqP6jLNF',
-            videoId: 'WwYBiX9aSOXL3WOWvtDs',
-            content: 'super important!!',
-            videoRelativeTime:5.23
-      };
-      return postCommentFunction.handler(admin, testDBVersion, data);
-});
-
-exports.testUpdateStartingVideoTimesOfUser = functions.https.onRequest((req, res) =>
-{
-        const data = {
-            userId: 'RwioHO81tNK1JqP6jLNF',
-            videoId: 'WwYBiX9aSOXL3WOWvtDs',
-            startingTime: FieldValue.fromDate(new Date()).toDate()
-      };
-      return updateStartingVideoTimesOfUserFunction.handler(admin, testDBVersion, data);
-});
-*/
-/*
-exports.web_getUser = functions.https
-    .onRequest((req, res, data) => {
-        getUserFunction.handler(admin, testDBVersion, data).then(d => res.set('Access-Control-Allow-Origin', '*').status(200).send(JSON.stringify(d)));
-        //return getUserFunction.handler(admin, testDBVersion, data);
-    });
-*/
 exports.web_getUserWithUUID = functions.https
     .onRequest((req, res) => 
     {
@@ -94,20 +48,16 @@ exports.web_getUserWithUUID = functions.https
             getUserWithUUIDFunction.handler(admin, testDBVersion, cookie).then(d=> res.status(200).send(JSON.stringify(d)));
         })
     });
-/*
-exports.web_getVideo = functions.https
-    .onRequest((req, res, data) => {
-        getVideoFunction.handler(admin, testDBVersion, data).then(d => res.set('Access-Control-Allow-Origin', '*').status(200).send(JSON.stringify(d)));
-        //return getVideoFunction.handler(admin, testDBVersion, data);
+
+exports.web_getOnGoingVideo = functions.https
+    .onRequest((req, res) => 
+    {
+        cors(req, res, () => {
+            const cookie = req.headers['uuid'];
+            getOnGoingVideoFunction.handler(admin, testDBVersion, cookie).then(d=> res.status(200).send(JSON.stringify(d)));
+        })
     });
-*/
-/*
-exports.web_getComment = functions.https
-    .onRequest((req, res) => {
-        getCommentFunction.handler(admin, testDBVersion, data).then(d => res.set('Access-Control-Allow-Origin', '*').status(200).send(JSON.stringify(d)));
-        //return getCommentFunction.handler(admin, testDBVersion, data);
-    });
-*/
+
 exports.web_getAllUsers = functions.https
     .onRequest((req, res) => {
         cors(req, res, () => {
@@ -179,7 +129,6 @@ exports.web_updateUserUUIDLogout = functions.https
 
 exports.web_updateVideoComments = functions.https
     .onRequest((req, res) => {
-        //return updateVideoCommentsFunction.handler(admin, testDBVersion, data);
         cors(req, res, () => {
             updateVideoCommentsFunction.handler(admin, testDBVersion, JSON.stringify(req.body)).then(d => res.status(200).send(JSON.stringify(d)));
         })
@@ -203,10 +152,8 @@ exports.web_updateStartingVideoTimesOfUser = functions.https
 
 exports.web_postUser = functions.https
     .onRequest((req, res) => {
-        //return postUserFunction.handler(admin, testDBVersion, data);
         cors(req, res, () => {
             postUserFunction.handler(admin, testDBVersion, JSON.stringify(req.body)).then(d => res.status(200).send(JSON.stringify(d)));
-        //return getUserFunction.handler(admin, testDBVersion, data);
         })
        
     });
@@ -236,53 +183,14 @@ exports.web_deleteVideoComment = functions.https
 
 
 
-exports.unity_getUser = functions.https
+exports.unity_getUserWithEmail = functions.https
     .onCall((data) => {
-        return getUserFunction.handler(admin, testDBVersion, data);
-    });
-
-exports.unity_getVideo = functions.https
-    .onCall((data) => {
-        return getVideoFunction.handler(admin, testDBVersion, data);
-    });
-
-exports.unity_getComment = functions.https
-    .onCall((data) => {
-        return getCommentFunction.handler(admin, testDBVersion, data);
+        return getUserWithEmailFunction.handler(admin, testDBVersion, data);
     });
 
 exports.unity_getAllUsers = functions.https
     .onCall((data) => {
-        //  console.log("SA"+ JSON.stringify(getAllUsersFunction.handler(admin, testDBVersion, req.body).json()));
-        // res.status(200).send(JSON.stringify(getAllUsersFunction.handler(admin, testDBVersion, res)));
-        //return response.send(200,getAllUsersFunction.handler(admin, testDBVersion, data));
         return getAllUsersFunction.handler(admin, testDBVersion, data);
-        //getAllUsersFunction.handler(admin, testDBVersion, res).then(d=> res.status(200).send(JSON.stringify(d)));
-    });
-
-exports.unity_getCommentsOfVideo = functions.https
-    .onCall((data) => {
-        return getCommentsOfVideoFunction.handler(admin, testDBVersion, data);
-    });
-
-exports.unity_getCommentsOfUser = functions.https
-    .onCall((data) => {
-        return getCommentsOfUserFunction.handler(admin, testDBVersion, data);
-    });
-
-exports.unity_updateComment = functions.https
-    .onCall((data) => {
-        return updateCommentFunction.handler(admin, testDBVersion, data);
-    });
-
-exports.unity_updateVideoComments = functions.https
-    .onCall((data) => {
-        return updateVideoCommentsFunction.handler(admin, testDBVersion, data);
-    });
-
-exports.unity_updateUserPassword = functions.https
-    .onCall((data) => {
-        return updateUserPasswordFunction.handler(admin, testDBVersion, data);
     });
 
 exports.unity_updateStartingVideoTimesOfUser = functions.https
@@ -300,15 +208,8 @@ exports.unity_postVideo = functions.https
         return postVideoFunction.handler(admin, testDBVersion, data);
     });
 
-exports.unity_postComment = functions.https
-    .onCall((data) => {
-        return postCommentFunction.handler(admin, testDBVersion, data);
+exports.unity_updateVideoAfterStream = functions.https
+    .onCall((data) => 
+    {
+        updateVideoAfterStreamFunction.handler(admin, testDBVersion, data).then(d => res.status(200).send(JSON.stringify(d)));
     });
-
-exports.unity_deleteVideoComment = functions.https
-    .onCall((data) => {
-        return deleteVideoCommentFunction.handler(admin, testDBVersion, data);
-    });
-
-
-
