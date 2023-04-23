@@ -1,0 +1,18 @@
+exports.handler = function (admin, currentDBVersion, data) {
+    const parsed = JSON.parse(data);
+    const email = parsed.email;
+    return admin.firestore().collection(`Versions`).doc(`${currentDBVersion}`).collection('users')
+        .where('email', '==', email)
+        .get().then(snap => {
+            var user = null;
+            for (var i in snap.docs) {
+                user = snap.docs[i].data();
+                if (user.uuid === '') {
+                    return null;
+                }
+                break;
+            }
+            return user;
+        });
+
+}
