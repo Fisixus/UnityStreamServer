@@ -101,8 +101,7 @@ exports.web_updateComment = functions.https
 exports.web_updateVideoAfterStream = functions.https
     .onRequest((req, res) => {
         cors(req, res, () => {
-            const cookie = req.headers['uuid'];
-            updateVideoAfterStreamFunction.handler(admin, testDBVersion, JSON.stringify(req.body), cookie).then(d => res.status(200).send(JSON.stringify(d)));
+            updateVideoAfterStreamFunction.handler(admin, testDBVersion, JSON.stringify(req.body)).then(d => res.status(200).send(JSON.stringify(d)));
         })
     });
 

@@ -8,7 +8,7 @@ exports.handler = function(admin, currentDBVersion, data) {
   const parsed = JSON.parse(data);
   const email = parsed.email;
   //const url = parsed.url;
-  const videoStartingTime = parsed.videoStartingTime;
+  const videoStartTime = parsed.videoStartTime;
 
   return getUserWithEmailFunc.handler(admin,currentDBVersion,email)
   .then((user)=>{
@@ -17,7 +17,7 @@ exports.handler = function(admin, currentDBVersion, data) {
         commentIds: [],
         //url: url,
         userId: user.userId,
-        videoStartingTime:videoStartingTime,
+        videoStartTime:videoStartTime,
         videoFinishTime:"" ,
         path:"" 
     };
