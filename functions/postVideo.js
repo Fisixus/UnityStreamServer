@@ -1,17 +1,16 @@
-const getUserWithEmailFunc = require('./getUserWithEmail');
+const getUserWithEmailFunc = require('./getUser');
 
 
-exports.handler = function(admin, currentDBVersion, data, cookie) {
+exports.handler = function(admin, currentDBVersion, data) {
 
   var videoDoc = admin.firestore().collection(`Versions`).doc(`${currentDBVersion}`).collection('videos').doc();
   const videoId = videoDoc.id;
   const parsed = JSON.parse(data);
   const email = parsed.email;
-  const password = parsed.password;
   //const url = parsed.url;
   const videoStartingTime = parsed.videoStartingTime;
 
-  return getUserWithEmailFunc.handler(admin,currentDBVersion,email,password)
+  return getUserWithEmailFunc.handler(admin,currentDBVersion,email)
   .then((user)=>{
       const newVideo = {
         videoId: videoId,
@@ -22,7 +21,8 @@ exports.handler = function(admin, currentDBVersion, data, cookie) {
         videoFinishTime:"" ,
         path:"" 
     };
-    return videoDoc.set(newVideo);
+    videoDoc.set(newVideo);
+    return videoId;
 
   });
 
