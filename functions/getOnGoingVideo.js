@@ -12,12 +12,11 @@ exports.handler = function(admin, currentDBVersion, cookie) {
         return admin.firestore().collection(`Versions`).doc(`${currentDBVersion}`).collection('videos').where('videoFinishTime','==',"")
         .get().then(snap=>
             {
-                var s = '';
+                var videos = [];
                 for (var i in snap.docs) {
-                    s = snap.docs[i].data();
-                    break;
+                    videos.push(snap.docs[i].data());
                 }
-                return s;
+                return videos;
             });
     });
 }
