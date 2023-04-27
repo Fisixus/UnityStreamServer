@@ -164,7 +164,13 @@ exports.web_postComment = functions.https
     .onRequest((req, res) => {
         cors(req, res, () => {
             const cookie = req.headers['uuid'];
-            postCommentFunction.handler(admin, testDBVersion, JSON.stringify(req.body), cookie).then(d => res.status(200).send(JSON.stringify(d)));
+            try {
+                postCommentFunction.handler(admin, testDBVersion, JSON.stringify(req.body), cookie);
+                res.status(200).send("Success");
+            } catch (error) {
+                res.status(400).send("Error")
+            }
+
         })
     });
 
