@@ -1,6 +1,6 @@
 exports.handler = function(admin, currentDBVersion, data) {
 
-    const videoId = data.videoId;
+    const videoId = JSON.parse(data).videoId;
     return admin.firestore().collection(`Versions`).doc(`${currentDBVersion}`).collection('videos')
     .where('videoId','==', videoId)
         .get().then(snap=>

@@ -12,7 +12,7 @@ const getUserWithUUIDFunction = require('./getUserWithUUID');
 const getOnGoingVideoFunction = require('./getOnGoingVideo');
 const getUserWithEmailFunction = require('./getUserWithEmail');
 const isUserLoggedIn = require('./isUserLoggedIn');
-//const getVideoFunction = require('./getVideo');
+const getVideoFunction = require('./getVideo');
 //const getCommentFunction = require('./getComment');
 const getAllUsersFunction = require('./getAllUsers');
 const getCommentsOfVideoFunction = require('./getCommentsOfVideo');
@@ -62,6 +62,14 @@ exports.web_getAllUsers = functions.https
         cors(req, res, () => {
             const data = {};
             getAllUsersFunction.handler(admin, testDBVersion, data).then(d => res.status(200).send(JSON.stringify(d)));
+        })
+
+    });
+
+exports.web_getVideo = functions.https
+    .onRequest((req, res) => {
+        cors(req, res, () => {
+            getVideoFunction.handler(admin, testDBVersion, JSON.stringify(req.body)).then(d => res.status(200).send(JSON.stringify(d)));
         })
 
     });

@@ -20,6 +20,7 @@ exports.handler = function (admin, currentDBVersion, data, cookie) {
                         const newComment = {
                             commentId: commentId,
                             userId: user.userId,
+                            userName: user.name,
                             videoId: videoId,
                             content: content,
                             annotationTime: annotationTime,
