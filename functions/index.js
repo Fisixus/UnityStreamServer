@@ -15,6 +15,7 @@ const isUserLoggedIn = require('./isUserLoggedIn');
 const getVideoFunction = require('./getVideo');
 //const getCommentFunction = require('./getComment');
 const getAllUsersFunction = require('./getAllUsers');
+const getSavedVideosFunction = require('./getSavedVideos');
 const getCommentsOfVideoFunction = require('./getCommentsOfVideo');
 const getCommentsOfUserFunction = require('./getCommentsOfUser');
 const getUserVideosFunction = require('./getUserVideos');
@@ -57,6 +58,14 @@ exports.web_getOnGoingVideo = functions.https
         })
     });
 
+exports.web_getSavedVideos= functions.https
+    .onRequest((req, res) => {
+        cors(req, res, () => {
+            const cookie = req.headers['uuid'];
+            getSavedVideosFunction.handler(admin, testDBVersion, cookie).then(d => res.status(200).send(JSON.stringify(d)));
+        })
+    });
+
 exports.web_getAllUsers = functions.https
     .onRequest((req, res) => {
         cors(req, res, () => {
@@ -69,7 +78,8 @@ exports.web_getAllUsers = functions.https
 exports.web_getVideo = functions.https
     .onRequest((req, res) => {
         cors(req, res, () => {
-            getVideoFunction.handler(admin, testDBVersion, JSON.stringify(req.body)).then(d => res.status(200).send(JSON.stringify(d)));
+            const cookie = req.headers['uuid'];
+            getVideoFunction.handler(admin, testDBVersion, JSON.stringify(req.body), cookie).then(d => res.status(200).send(JSON.stringify(d)));
         })
 
     });
