@@ -14,7 +14,7 @@ exports.handler = function(admin, currentDBVersion, data, cookie) {
                 for (var i in snap.docs) {
                     comments.push(snap.docs[i].data());
                 }
-                return comments;
+                return {comments: comments};
             });
     
     });
