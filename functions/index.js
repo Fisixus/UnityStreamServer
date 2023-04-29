@@ -79,7 +79,7 @@ exports.web_getVideo = functions.https
     .onRequest((req, res) => {
         cors(req, res, () => {
             const cookie = req.headers['uuid'];
-            getVideoFunction.handler(admin, testDBVersion, JSON.stringify(req.body), cookie).then(d => res.status(200).send(JSON.stringify(d)));
+            getVideoFunction.handler(admin, testDBVersion, req.body, cookie).then(d => res.status(200).send(JSON.stringify(d)));
         })
 
     });
@@ -88,7 +88,8 @@ exports.web_getVideo = functions.https
 exports.web_getCommentsOfVideo = functions.https
     .onRequest((req, res) => {
         cors(req, res, () => {
-            getCommentsOfVideoFunction.handler(admin, testDBVersion, JSON.stringify(req.body)).then(d => res.status(200).send(JSON.stringify(d)));
+            const cookie = req.headers['uuid'];
+            getCommentsOfVideoFunction.handler(admin, testDBVersion, JSON.stringify(req.body), cookie).then(d => res.status(200).send(JSON.stringify(d)));
         })
     });
 
